@@ -1,0 +1,12 @@
+export { default as AddRiskPointForEligibleInsurances } from './AddRiskPointForEligibleInsurances';
+export { default as CalculatesBaseScoreByRiskQuestions } from './CalculatesBaseScoreByRiskQuestions';
+export { default as CalculatesRiskPointsByAge } from './CalculatesRiskPointsByAge';
+export { default as CalculatesRiskPointsByDependents } from './CalculatesRiskPointsByDependents';
+export { default as CalculatesRiskPointsByHouse } from './CalculatesRiskPointsByHouse';
+export { default as CalculatesRiskPointsByIncome } from './CalculatesRiskPointsByIncome';
+export { default as CalculatesRiskPointsByMaritalStatus } from './CalculatesRiskPointsByMaritalStatus';
+export { default as CalculatesRiskPointsByVehicle } from './CalculatesRiskPointsByVehicle';
+export { default as CreateSuitabilityOfRiskProfile } from './CreateSuitabilityOfRiskProfile';
+export { default as DeductRiskPointForEligibleInsurances } from './DeductRiskPointForEligibleInsurances';
+export { default as DetermineInsuranceEligibility } from './DetermineInsuranceEligibility';
+export { default as ProvideRiskProfileForInsurances } from './ProvideRiskProfileForInsurances';

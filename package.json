@@ -1,0 +1,90 @@
+{
+  "name": "risk-profile-project",
+  "version": "1.0.0",
+  "description": "This project determines the user’s insurance needs by asking personal & risk-related questions and gathering information about the user’s vehicle and house. Using this data, determines their risk profile for each line of insurance and then suggests an insurance plan ('economic', 'regular', 'responsible') corresponding to her risk profile.",
+  "main": "index.js",
+  "scripts": {
+    "prebuild": "rm -rf build/",
+    "build": "babel ./ --extensions \".js,.ts\" --out-dir build --copy-files --no-copy-ignored --source-maps",
+    "start": "DEBUG=INSURANCE-SUITABILITY-info node -r dotenv/config build/src/application/server.js",
+    "dev": "DEBUG=INSURANCE-SUITABILITY-* ts-node-dev -r tsconfig-paths/register --respawn --transpile-only --ignore-watch node_modules --no-notify -r dotenv/config src/application/server.ts",
+    "test": "npm run prebuild && npx jest --coverage",
+    "test:unit": "npm run prebuild && cross-env NODE_ENV=test jest test/unit --coverage",
+    "test:integration": "npm run prebuild && cross-env NODE_ENV=test jest test/integration --coverage",
+    "test:functional": "npm run prebuild &&  node -r dotenv/config node_modules/.bin/jest test/functional --coverage --detectOpenHandles --forceExit --runInBand",
+    "test:clear": "jest --clearCache",
+    "lint:fix": "npx eslint . --ext .ts --fix",
+    "lint": "npx eslint . --ext .ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "jest": {
+    "transform": {
+      ".(ts|tsx)": "ts-jest"
+    },
+    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx)$",
+    "moduleNameMapper": {
+      "^@application/(.*)$": "<rootDir>/src/application/$1",
+      "^@domain/(.*)$": "<rootDir>/src/domain/$1",
+      "^@shared/(.*)$": "<rootDir>/src/shared/$1",
+      "^@test/(.*)$": "<rootDir>/test/$1"
+    },
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "./**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+      "npm run lint",
+      "git add"
+    ]
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.10.1",
+    "@babel/core": "^7.10.2",
+    "@babel/node": "^7.10.1",
+    "@babel/preset-env": "^7.10.2",
+    "@babel/preset-typescript": "^7.10.1",
+    "@types/express": "^4.17.8",
+    "@types/jest": "^26.0.13",
+    "@types/supertest": "^2.0.10",
+    "@typescript-eslint/eslint-plugin": "^4.1.0",
+    "babel-plugin-module-resolver": "^4.0.0",
+    "eslint": "^7.9.0",
+    "eslint-config-airbnb": "^18.2.0",
+    "eslint-config-airbnb-typescript": "^10.0.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-jsx-a11y": "^6.3.1",
+    "eslint-plugin-react": "^7.20.6",
+    "eslint-plugin-react-hooks": "^4.1.2",
+    "husky": "^4.3.0",
+    "jest": "^26.4.2",
+    "lint-staged": "^10.3.0",
+    "supertest": "^4.0.2",
+    "ts-jest": "^26.3.0",
+    "tsconfig-paths": "^3.9.0",
+    "typescript": "^4.0.2"
+  },
+  "dependencies": {
+    "@types/debug": "^4.1.5",
+    "cross-env": "^7.0.2",
+    "crypto": "^1.0.1",
+    "debug": "^4.1.1",
+    "dotenv": "^8.2.0",
+    "env-var": "^6.3.0",
+    "express": "^4.17.1",
+    "express-joi-validation": "^5.0.0",
+    "http-status-codes": "^2.1.3",
+    "joi": "^17.3.0",
+    "ts-node": "^9.0.0",
+    "ts-node-dev": "^1.0.0-pre.62"
+  }
+}
