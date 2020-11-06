@@ -34,7 +34,7 @@ export default class ProvideRiskProfileForInsurances {
 
       await this.determineInsuranceEligibility.execute(user, this.riskProfile);
 
-      const userHasEligibleInsurance = await this.checkInsuranceEligibility(this.riskProfile);
+      const userHasEligibleInsurance = await this.checkInsuranceEligibility();
 
       if (!userHasEligibleInsurance) {
         await this.logger.info('All insurance is not eligible for the user');
@@ -55,9 +55,9 @@ export default class ProvideRiskProfileForInsurances {
     }
   }
 
-  public async checkInsuranceEligibility(riskProfile: RiskProfile): Promise<boolean> {
-    const insurances = Object.keys(riskProfile);
+  public async checkInsuranceEligibility(): Promise<boolean> {
+    const insurances = Object.keys(this.riskProfile);
 
-    return !!insurances.find((insurance) => riskProfile[insurance].isEligible === true);
+    return !!insurances.find((insurance) => this.riskProfile[insurance].isEligible === true);
   }
 }
