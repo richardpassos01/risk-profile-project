@@ -1,17 +1,30 @@
+import { v4 as uuid } from 'uuid';
+
 export interface Insurance {
   isEligible: boolean;
   riskPoint: number;
 }
 
 export interface SuitabilityRiskProfile {
+  id?: string;
+  user_id?: string;
   auto: string;
   disability: string;
   home: string;
   life: string;
 }
 
+export interface RiskProfileDTO {
+  id?: string;
+  userId: string;
+  baseScore: number;
+  baseEligibleStatus: boolean;
+}
+
 export default class RiskProfile {
-  public readonly id: number;
+  public readonly id: string;
+
+  public user_id: string;
 
   public auto: Insurance;
 
@@ -21,25 +34,31 @@ export default class RiskProfile {
 
   public life: Insurance;
 
-  constructor(baseScore: number, baseEligibleStatus = false) {
+  constructor(props: RiskProfileDTO) {
     this.auto = {
-      isEligible: baseEligibleStatus,
-      riskPoint: baseScore,
+      isEligible: props.baseEligibleStatus,
+      riskPoint: props.baseScore,
     };
 
     this.disability = {
-      isEligible: baseEligibleStatus,
-      riskPoint: baseScore,
+      isEligible: props.baseEligibleStatus,
+      riskPoint: props.baseScore,
     };
 
     this.home = {
-      isEligible: baseEligibleStatus,
-      riskPoint: baseScore,
+      isEligible: props.baseEligibleStatus,
+      riskPoint: props.baseScore,
     };
 
     this.life = {
-      isEligible: baseEligibleStatus,
-      riskPoint: baseScore,
+      isEligible: props.baseEligibleStatus,
+      riskPoint: props.baseScore,
     };
+
+    this.user_id = props.userId;
+
+    if (!props.id) {
+      this.id = uuid();
+    }
   }
 }

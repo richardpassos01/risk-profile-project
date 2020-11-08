@@ -1,5 +1,5 @@
-export interface GenericFetchable<ID, Entity> {
-  fetch(id: ID): Promise<Entity>;
+export interface GenericFetchable<userID, Entity> {
+  fetch(userId: userID): Promise<Entity>;
 }
 export interface GenericCreatable<Entity> {
   create(entity: Entity): Promise<void>;
@@ -8,6 +8,7 @@ export interface GenericCreatable<Entity> {
 export interface GenericUpdatable<Entity> {
   update(entity: Entity): Promise<Entity>;
 }
+
 export interface GenericUseCaseSingleParam<Param, Result> {
   execute(param: Param): Promise<Result>;
 }

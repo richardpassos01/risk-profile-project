@@ -1,4 +1,4 @@
-import { User } from '@domain/user';
+import { User, UseCases, Errors as UserErrors } from '@domain/user';
 import { LoggerDTO } from '@domain/shared/Contracts';
 import RiskProfile, { SuitabilityRiskProfile } from '../RiskProfile';
 import {
@@ -7,12 +7,14 @@ import {
   ProviderOfSuitability,
   CalculateRisk,
 } from '../Repository';
+
 import { FailureToProvideSuitability } from '../error';
 
 export default class ProvideRiskProfileForInsurances {
   public riskProfile: RiskProfile;
 
   constructor(
+    private readonly fetcherUser: UseCases.Fetch,
     private readonly calculatesBaseScoreByRiskQuestions: CalculateScore,
     private readonly determineInsuranceEligibility: DetermineEligibility,
     private readonly createSuitabilityOfRiskProfile: ProviderOfSuitability,
@@ -25,12 +27,23 @@ export default class ProvideRiskProfileForInsurances {
     private readonly logger: LoggerDTO,
   ) { }
 
-  async execute(user: User): Promise<SuitabilityRiskProfile> {
+  async execute(userId: string): Promise<SuitabilityRiskProfile> {
     try {
-      const baseScore = await this.calculatesBaseScoreByRiskQuestions.execute(user.risk_questions);
-      const isEligible = true;
+      const userData = await this.fetcherUser.execute(userId);
+      if (!userData) {
+        throw new UserErrors.UserNotFound();
+      }
 
-      this.riskProfile = new RiskProfile(baseScore, isEligible);
+      const user = new User(userData);
+      user.prepareToReadFromDatabase();
+
+      const baseScore = await this.calculatesBaseScoreByRiskQuestions.execute(user.risk_questions);
+
+      this.riskProfile = new RiskProfile({
+        userId: user.id,
+        baseEligibleStatus: true,
+        baseScore,
+      });
 
       await this.determineInsuranceEligibility.execute(user, this.riskProfile);
 
@@ -51,7 +64,11 @@ export default class ProvideRiskProfileForInsurances {
       await this.logger.info('Risk points calculated and ready to create the suitability of the risk profile');
       return this.createSuitabilityOfRiskProfile.execute(this.riskProfile);
     } catch (error) {
-      throw new FailureToProvideSuitability();
+      if (!error.statusCode) {
+        throw new FailureToProvideSuitability();
+      }
+
+      throw error;
     }
   }
 

@@ -1,7 +1,12 @@
 import { InsuranceSuitabilityName, LimitRiskPointsToSuitability } from '@shared/enums/InsuranceSuitability';
+import { Creatable } from '../Repository';
 import RiskProfile, { Insurance, SuitabilityRiskProfile } from '../RiskProfile';
 
 export default class CreateSuitabilityOfRiskProfile {
+  constructor(
+    private readonly creator: Creatable,
+  ) { }
+
   async execute(riskProfile: RiskProfile): Promise<SuitabilityRiskProfile> {
     const suitabilityOfRiskProfile = {
       auto: await this.createSuitability(riskProfile.auto),
@@ -9,6 +14,12 @@ export default class CreateSuitabilityOfRiskProfile {
       home: await this.createSuitability(riskProfile.home),
       life: await this.createSuitability(riskProfile.life),
     };
+
+    await this.creator.create({
+      id: riskProfile.id,
+      user_id: riskProfile.user_id,
+      ...suitabilityOfRiskProfile,
+    });
 
     return suitabilityOfRiskProfile;
   }

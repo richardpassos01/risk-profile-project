@@ -1,6 +1,7 @@
 import { User, UserRiskQuestions } from '@domain/user';
 import {
   GenericCreatable,
+  GenericFetchable,
   GenericUseCaseSingleParam,
   GenericUseCaseDoubleParam,
   GenericUseCaseTripleParam,
@@ -9,6 +10,8 @@ import {
 import RiskProfile, { SuitabilityRiskProfile } from './RiskProfile';
 
 export type Creatable = GenericCreatable<SuitabilityRiskProfile>;
+
+export type Fetchable = GenericFetchable<string, SuitabilityRiskProfile[]>;
 
 export type CalculateScore = GenericUseCaseSingleParam<UserRiskQuestions, number>;
 

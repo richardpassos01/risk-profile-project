@@ -1,7 +1,26 @@
 import * as RiskProfile from '@domain/riskProfile';
+import * as User from '@domain/user';
 import { Logger } from '../logger';
+import {
+  userCreator,
+  userFetcher,
+  riskProfileCreator,
+  riskProfileFetcher,
+} from './Repository';
 
 const logger = new Logger();
+
+export const createUser = new User.UseCases.Create(
+  userCreator(),
+);
+
+export const fetcherUser = new User.UseCases.Fetch(
+  userFetcher(),
+);
+
+export const fetcherRiskProfile = new RiskProfile.UseCases.Fetch(
+  riskProfileFetcher(),
+);
 
 export const addRiskPointForEligibleInsurances = new RiskProfile.UseCases
   .AddRiskPointForEligibleInsurances();
@@ -57,10 +76,13 @@ export const determineInsuranceEligibility = new RiskProfile.UseCases
   );
 
 export const createSuitabilityOfRiskProfile = new RiskProfile.UseCases
-  .CreateSuitabilityOfRiskProfile();
+  .CreateSuitabilityOfRiskProfile(
+    riskProfileCreator(),
+  );
 
 export const provideRiskProfileForInsurances = new RiskProfile.UseCases
   .ProvideRiskProfileForInsurances(
+    fetcherUser,
     calculatesBaseScoreByRiskQuestions,
     determineInsuranceEligibility,
     createSuitabilityOfRiskProfile,

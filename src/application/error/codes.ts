@@ -8,6 +8,9 @@ const errorCodes = Object.freeze({
   riskProfile: {
     INTERNAL_SERVER_ERROR: `${application.errorAcronym}RISK0001`,
   },
+  user: {
+    NOT_FOUND: `${application.errorAcronym}USR0001`,
+  },
 });
 
 export default errorCodes;

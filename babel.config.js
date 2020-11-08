@@ -15,6 +15,7 @@ module.exports = {
       alias: {
         '@application': './src/application',
         '@domain': './src/domain',
+        '@infrastructure': './src/infrastructure',
         '@shared': './src/shared',
         '@test': './test',
       },

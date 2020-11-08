@@ -10,3 +10,4 @@ export { default as CreateSuitabilityOfRiskProfile } from './CreateSuitabilityOf
 export { default as DeductRiskPointForEligibleInsurances } from './DeductRiskPointForEligibleInsurances';
 export { default as DetermineInsuranceEligibility } from './DetermineInsuranceEligibility';
 export { default as ProvideRiskProfileForInsurances } from './ProvideRiskProfileForInsurances';
+export { default as Fetch } from './Fetch';

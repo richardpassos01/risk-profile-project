@@ -1,35 +1,36 @@
 import { NextFunction, Request, Response } from 'express';
 import httpStatus from 'http-status-codes';
-import UseCase from '@domain/riskProfile/use-cases/ProvideRiskProfileForInsurances';
+import { UseCases } from '@domain/riskProfile';
 
 export default class RiskProfileController {
   constructor(
-    private useCase: UseCase,
+    private provideSuitability: UseCases.ProvideRiskProfileForInsurances,
+    private getSuitability: UseCases.Fetch,
   ) { }
 
-  async handle(request: Request, response: Response, next: NextFunction): Promise<Response | void> {
+  async post(request: Request, response: Response, next: NextFunction): Promise<Response | void> {
     try {
       const {
-        age,
-        dependents,
-        house,
-        income,
-        marital_status,
-        risk_questions,
-        vehicle,
+        userId,
       } = request.body;
 
-      const riskProfileForInsurances = await this.useCase.execute({
-        age,
-        dependents,
-        house,
-        income,
-        marital_status,
-        risk_questions,
-        vehicle,
-      });
+      const riskProfileForInsurances = await this.provideSuitability.execute(userId);
 
       return response.status(httpStatus.OK).send(riskProfileForInsurances);
+    } catch (error) {
+      return next(error);
+    }
+  }
+
+  async get(request: Request, response: Response, next: NextFunction): Promise<Response | void> {
+    try {
+      const {
+        userId,
+      } = request.params;
+
+      const riskProfiles = await this.getSuitability.execute(userId);
+
+      return response.status(httpStatus.OK).send(riskProfiles);
     } catch (error) {
       return next(error);
     }
