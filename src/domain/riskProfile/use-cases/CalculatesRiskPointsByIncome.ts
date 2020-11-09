@@ -1,17 +1,31 @@
-import { LoggerDTO } from '@domain/shared/Contracts';
-import { User } from '@domain/user';
+import { NextFunction } from 'express';
+import { EventEmitter, LoggerDTO } from '@domain/shared/Contracts';
+import { UserDTO } from '@domain/user';
 import { AvailableRiskPoints } from '@shared/enums/AvailableRiskPoints';
+import { Events } from '@shared/enums/Events';
 import { IncomeSituationByMoneyQuantityInThousands } from '@shared/enums/IncomeSituationByMoneyQuantityInThousands';
 import { ModifyRiskPoints } from '../Repository';
 import RiskProfile from '../RiskProfile';
 
+interface CreateRiskProfileEvent {
+  user: UserDTO;
+  riskProfile: RiskProfile;
+  finish: NextFunction;
+}
 export default class CalculatesRiskPointsByIncome {
   constructor(
+    private readonly eventEmitter: EventEmitter<CreateRiskProfileEvent>,
     private readonly deductRiskPointForEligibleInsurances: ModifyRiskPoints,
     private readonly logger: LoggerDTO,
   ) { }
 
-  async execute(user: User, riskProfile: RiskProfile): Promise<void> {
+  listener(): void {
+    this.eventEmitter.on(Events.CalculatesRiskPointsByIncome, (data) => {
+      this.execute(data);
+    });
+  }
+
+  async execute({ user, riskProfile, finish }: CreateRiskProfileEvent): Promise<void> {
     if (user.income > IncomeSituationByMoneyQuantityInThousands.Safe) {
       const insurances = Object.keys(riskProfile);
 
@@ -25,5 +39,13 @@ export default class CalculatesRiskPointsByIncome {
 
       this.logger.info(`${AvailableRiskPoints.One} risk points were deducted from all insurance lines because the user income is above $${IncomeSituationByMoneyQuantityInThousands.Safe.toFixed(2)}.`);
     }
+
+    const data = {
+      user,
+      riskProfile,
+      finish,
+    };
+
+    this.eventEmitter.emit(Events.CalculatesRiskPointsByHouse, data);
   }
 }

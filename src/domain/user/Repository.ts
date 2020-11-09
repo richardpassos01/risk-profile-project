@@ -3,8 +3,8 @@ import {
   GenericFetchable,
 } from '../shared/Contracts';
 
-import User from './User';
+import User, { UserDTO } from './User';
 
 export type Creatable = GenericCreatable<User>;
 
-export type Fetchable = GenericFetchable<string, User>;
+export type Fetchable = GenericFetchable<string, UserDTO>;

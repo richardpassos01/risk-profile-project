@@ -25,3 +25,8 @@ export interface LoggerDTO {
   error(message: string): Promise<void>;
   info(message: string): Promise<void>;
 }
+
+export interface EventEmitter<Entity> {
+  on(event: string, listener: (entity: Entity) => void): this;
+  emit(event: string, data: any): void;
+}

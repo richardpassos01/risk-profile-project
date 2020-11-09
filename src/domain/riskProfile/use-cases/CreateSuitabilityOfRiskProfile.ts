@@ -1,13 +1,28 @@
+import { NextFunction } from 'express';
+import { EventEmitter } from '@domain/shared/Contracts';
+import { Events } from '@shared/enums/Events';
 import { InsuranceSuitabilityName, LimitRiskPointsToSuitability } from '@shared/enums/InsuranceSuitability';
 import { Creatable } from '../Repository';
-import RiskProfile, { Insurance, SuitabilityRiskProfile } from '../RiskProfile';
+import RiskProfile, { Insurance } from '../RiskProfile';
+
+interface CreateRiskProfileEvent {
+  riskProfile: RiskProfile;
+  finish: NextFunction;
+}
 
 export default class CreateSuitabilityOfRiskProfile {
   constructor(
+    private readonly eventEmitter: EventEmitter<CreateRiskProfileEvent>,
     private readonly creator: Creatable,
   ) { }
 
-  async execute(riskProfile: RiskProfile): Promise<SuitabilityRiskProfile> {
+  listener(): void {
+    this.eventEmitter.on(Events.CreateSuitabilityOfRiskProfile, (data) => {
+      this.execute(data);
+    });
+  }
+
+  async execute({ riskProfile, finish }: CreateRiskProfileEvent): Promise<void> {
     const suitabilityOfRiskProfile = {
       auto: await this.createSuitability(riskProfile.auto),
       disability: await this.createSuitability(riskProfile.disability),
@@ -21,7 +36,7 @@ export default class CreateSuitabilityOfRiskProfile {
       ...suitabilityOfRiskProfile,
     });
 
-    return suitabilityOfRiskProfile;
+    return finish(suitabilityOfRiskProfile);
   }
 
   private async createSuitability(insurance: Insurance): Promise<string> {

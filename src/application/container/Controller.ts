@@ -2,13 +2,13 @@ import RiskProfileController from '../controller/RiskProfileController';
 import UserController from '../controller/UserController';
 import {
   fetcherRiskProfile,
-  provideRiskProfileForInsurances,
+  fetcherUser,
   createUser,
 } from './UseCases';
 
 function riskProfileController(): RiskProfileController {
   return new RiskProfileController(
-    provideRiskProfileForInsurances,
+    fetcherUser,
     fetcherRiskProfile,
   );
 }

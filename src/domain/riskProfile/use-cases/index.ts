@@ -9,5 +9,5 @@ export { default as CalculatesRiskPointsByVehicle } from './CalculatesRiskPoints
 export { default as CreateSuitabilityOfRiskProfile } from './CreateSuitabilityOfRiskProfile';
 export { default as DeductRiskPointForEligibleInsurances } from './DeductRiskPointForEligibleInsurances';
 export { default as DetermineInsuranceEligibility } from './DetermineInsuranceEligibility';
-export { default as ProvideRiskProfileForInsurances } from './ProvideRiskProfileForInsurances';
+export { default as CreateRiskProfileByBaseScoreAndUser } from './CreateRiskProfileByBaseScoreAndUser';
 export { default as Fetch } from './Fetch';
