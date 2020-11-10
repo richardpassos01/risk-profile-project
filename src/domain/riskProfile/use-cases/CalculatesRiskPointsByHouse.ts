@@ -18,7 +18,9 @@ export default class CalculatesRiskPointsByHouse {
     private readonly eventEmitter: EventEmitter<CreateRiskProfileEvent>,
     private readonly addRiskPointForEligibleInsurances: ModifyRiskPoints,
     private readonly logger: LoggerDTO,
-  ) { }
+  ) {
+    this.listener();
+  }
 
   listener(): void {
     this.eventEmitter.on(Events.CalculatesRiskPointsByHouse, (data) => {

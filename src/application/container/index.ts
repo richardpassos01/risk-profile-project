@@ -1,7 +1,7 @@
 import Controller from './Controller';
 import * as Repository from './Repository';
 import * as UseCase from './UseCases';
-import * as Events from './Events';
+import * as Events from './EventEmitter';
 
 export default {
   controller: Controller,

@@ -19,7 +19,9 @@ export default class CalculatesRiskPointsByMaritalStatus {
     private readonly addRiskPointForEligibleInsurances: ModifyRiskPoints,
     private readonly deductRiskPointForEligibleInsurances: ModifyRiskPoints,
     private readonly logger: LoggerDTO,
-  ) { }
+  ) {
+    this.listener();
+  }
 
   listener(): void {
     this.eventEmitter.on(Events.CalculatesRiskPointsByHouse, (data) => {

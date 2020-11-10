@@ -17,7 +17,9 @@ export default class CalculatesRiskPointsByAge {
     private readonly eventEmitter: EventEmitter<CreateRiskProfileEvent>,
     private readonly deductRiskPointForEligibleInsurances: ModifyRiskPoints,
     private readonly logger: LoggerDTO,
-  ) { }
+  ) {
+    this.listener();
+  }
 
   listener(): void {
     this.eventEmitter.on(Events.CalculatesRiskPointsByAge, (data) => {

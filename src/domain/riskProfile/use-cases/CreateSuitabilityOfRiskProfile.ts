@@ -14,7 +14,9 @@ export default class CreateSuitabilityOfRiskProfile {
   constructor(
     private readonly eventEmitter: EventEmitter<CreateRiskProfileEvent>,
     private readonly creator: Creatable,
-  ) { }
+  ) {
+    this.listener();
+  }
 
   listener(): void {
     this.eventEmitter.on(Events.CreateSuitabilityOfRiskProfile, (data) => {

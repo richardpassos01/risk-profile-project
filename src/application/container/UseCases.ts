@@ -7,7 +7,7 @@ import {
   riskProfileCreator,
   riskProfileFetcher,
 } from './Repository';
-import { eventEmitter } from './Events';
+import { eventEmitter } from './EventEmitter';
 
 const logger = new Logger();
 

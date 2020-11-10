@@ -11,7 +11,9 @@ export default class CalculatesBaseScoreByRiskQuestions {
   constructor(
     private readonly eventEmitter: EventEmitter<CreateRiskProfileEvent>,
     public readonly logger: LoggerDTO,
-  ) { }
+  ) {
+    this.listener();
+  }
 
   listener(): void {
     this.eventEmitter.on(Events.ShouldCalculateBaseBaseScore, (data) => {

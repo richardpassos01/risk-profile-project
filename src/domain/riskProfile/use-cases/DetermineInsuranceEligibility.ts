@@ -16,7 +16,9 @@ export default class DetermineInsuranceEligibility {
   constructor(
     private readonly eventEmitter: EventEmitter<CreateRiskProfileEvent>,
     public readonly logger: LoggerDTO,
-  ) { }
+  ) {
+    this.listener();
+  }
 
   listener(): void {
     this.eventEmitter.on(Events.DetermineInsuranceEligibility, (data) => {
