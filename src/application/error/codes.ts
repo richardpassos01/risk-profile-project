@@ -11,6 +11,9 @@ const errorCodes = Object.freeze({
   user: {
     NOT_FOUND: `${application.errorAcronym}USR0001`,
   },
+  events: {
+    MISSING: `${application.errorAcronym}EVT0001`,
+  },
 });
 
 export default errorCodes;

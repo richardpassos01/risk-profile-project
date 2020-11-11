@@ -27,6 +27,11 @@ export interface LoggerDTO {
 }
 
 export interface EventEmitter<Entity> {
+  _events: any;
   on(event: string, listener: (entity: Entity) => void): this;
   emit(event: string, data: any): void;
+}
+
+export interface FinishedCallback {
+  (): void;
 }

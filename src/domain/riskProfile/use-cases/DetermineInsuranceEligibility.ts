@@ -1,16 +1,9 @@
-import { NextFunction } from 'express';
 import { EventEmitter, LoggerDTO } from '@domain/shared/Contracts';
 import { UserDTO } from '@domain/user';
 import { Events } from '@shared/enums/Events';
 import { SuitabilityRiskProfileNames } from '@shared/enums/SuitabilityRiskProfileNames';
 import { UserDefinitionByQuantityYears } from '@shared/enums/UserDefinitionByQuantityYears';
-import RiskProfile from '../RiskProfile';
-
-interface CreateRiskProfileEvent {
-  user: UserDTO;
-  riskProfile: RiskProfile,
-  finish: NextFunction;
-}
+import RiskProfile, { CreateRiskProfileEvent } from '../RiskProfile';
 
 export default class DetermineInsuranceEligibility {
   constructor(

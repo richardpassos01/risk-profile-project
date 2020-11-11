@@ -1,5 +1,12 @@
+import { FinishedCallback } from '@domain/shared/Contracts';
+import { UserDTO } from '@domain/user';
 import { v4 as uuid } from 'uuid';
 
+export interface CreateRiskProfileEvent {
+  user: UserDTO;
+  riskProfile: RiskProfile,
+  finish: FinishedCallback;
+}
 export interface Insurance {
   isEligible: boolean;
   riskPoint: number;

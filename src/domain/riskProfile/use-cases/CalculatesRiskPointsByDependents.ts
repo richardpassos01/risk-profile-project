@@ -1,17 +1,10 @@
-import { NextFunction } from 'express';
 import { EventEmitter, LoggerDTO } from '@domain/shared/Contracts';
-import { UserDTO } from '@domain/user';
 import { AvailableRiskPoints } from '@shared/enums/AvailableRiskPoints';
 import { Events } from '@shared/enums/Events';
 import { SuitabilityRiskProfileNames } from '@shared/enums/SuitabilityRiskProfileNames';
 import { ModifyRiskPoints } from '../Repository';
-import RiskProfile from '../RiskProfile';
+import { CreateRiskProfileEvent } from '../RiskProfile';
 
-interface CreateRiskProfileEvent {
-  user: UserDTO;
-  riskProfile: RiskProfile;
-  finish: NextFunction;
-}
 export default class CalculatesRiskPointsByDependents {
   constructor(
     private readonly eventEmitter: EventEmitter<CreateRiskProfileEvent>,

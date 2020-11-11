@@ -1,6 +1,5 @@
-import { EventEmitter } from '@domain/shared/Contracts';
+import { EventEmitter, FinishedCallback } from '@domain/shared/Contracts';
 import { Events } from '@shared/enums/Events';
-import { NextFunction } from 'express';
 import { UserNotFound } from '../error';
 import { Fetchable } from '../Repository';
 import User from '../User';
@@ -13,7 +12,7 @@ export default class Fetch {
 
   async execute(
     userId: string,
-    finish: NextFunction,
+    finish: FinishedCallback,
   ): Promise<void> {
     const userData = await this.fetcher.fetch(userId);
     if (!userData) {

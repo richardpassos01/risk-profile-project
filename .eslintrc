@@ -12,6 +12,7 @@
     "class-methods-use-this": "off",
     "@typescript-eslint/no-explicit-any": "off",
     "no-param-reassign": "off",
-    "@typescript-eslint/naming-convention": "off"
+    "@typescript-eslint/naming-convention": "off",
+    "no-underscore-dangle": "off"
   }
 }

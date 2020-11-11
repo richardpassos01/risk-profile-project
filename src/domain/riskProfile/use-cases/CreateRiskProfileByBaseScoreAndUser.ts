@@ -1,13 +1,12 @@
-import { NextFunction } from 'express';
 import { UserDTO } from '@domain/user';
-import { EventEmitter, LoggerDTO } from '@domain/shared/Contracts';
+import { EventEmitter, FinishedCallback, LoggerDTO } from '@domain/shared/Contracts';
 import { Events } from '@shared/enums/Events';
 import RiskProfile from '../RiskProfile';
 
 interface CreateRiskProfileEvent {
   user: UserDTO;
   baseScore: number;
-  finish: NextFunction;
+  finish: FinishedCallback;
 }
 
 export default class CreateRiskProfileByBaseScoreAndUser {

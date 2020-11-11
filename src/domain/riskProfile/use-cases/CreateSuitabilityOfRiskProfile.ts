@@ -1,5 +1,4 @@
-import { NextFunction } from 'express';
-import { EventEmitter } from '@domain/shared/Contracts';
+import { EventEmitter, FinishedCallback } from '@domain/shared/Contracts';
 import { Events } from '@shared/enums/Events';
 import { InsuranceSuitabilityName, LimitRiskPointsToSuitability } from '@shared/enums/InsuranceSuitability';
 import { Creatable } from '../Repository';
@@ -7,7 +6,7 @@ import RiskProfile, { Insurance } from '../RiskProfile';
 
 interface CreateRiskProfileEvent {
   riskProfile: RiskProfile;
-  finish: NextFunction;
+  finish: FinishedCallback;
 }
 
 export default class CreateSuitabilityOfRiskProfile {

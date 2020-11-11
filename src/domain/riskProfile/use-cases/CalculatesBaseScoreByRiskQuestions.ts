@@ -1,11 +1,17 @@
-import { EventEmitter, LoggerDTO } from '@domain/shared/Contracts';
+import { EventEmitter, FinishedCallback, LoggerDTO } from '@domain/shared/Contracts';
 import { UserDTO } from '@domain/user';
 import { Events } from '@shared/enums/Events';
-import { NextFunction } from 'express';
+import { MissingEvent } from '../error';
 
 interface CreateRiskProfileEvent {
   user: UserDTO;
-  finish: NextFunction;
+  finish: FinishedCallback;
+}
+
+interface DataAcceptOnEvent {
+  baseScore: number;
+  user: UserDTO;
+  finish: FinishedCallback;
 }
 export default class CalculatesBaseScoreByRiskQuestions {
   constructor(
@@ -15,13 +21,13 @@ export default class CalculatesBaseScoreByRiskQuestions {
     this.listener();
   }
 
-  listener(): void {
+  private listener(): void {
     this.eventEmitter.on(Events.ShouldCalculateBaseBaseScore, (data) => {
       this.execute(data);
     });
   }
 
-  async execute({ user, finish }: CreateRiskProfileEvent): Promise<void> {
+  private async execute({ user, finish }: CreateRiskProfileEvent): Promise<void> {
     const reducer = (
       accumulator: any,
       currentValue: any,
@@ -36,6 +42,14 @@ export default class CalculatesBaseScoreByRiskQuestions {
       finish,
     };
 
-    this.eventEmitter.emit(Events.CreateRiskProfileByScoreAndUser, data);
+    return this.dispatch(data);
+  }
+
+  private dispatch(data: DataAcceptOnEvent): void {
+    if (this.eventEmitter._events[Events.CreateRiskProfileByScoreAndUser]) {
+      return this.eventEmitter.emit(Events.CreateRiskProfileByScoreAndUser, data);
+    }
+
+    throw new MissingEvent();
   }
 }
