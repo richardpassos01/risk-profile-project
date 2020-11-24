@@ -29,6 +29,17 @@ describe('CalculatesRiskPointsByMaritalStatus', () => {
     );
   });
 
+  test('Should not deduct or add points from any lines of insurance to single users.', async () => {
+    user.marital_status = 'single';
+
+    await calculatesRiskPointsByMaritalStatus.execute(user, riskProfile);
+
+    expect(riskProfile.life.riskPoint).toBe(1);
+    expect(riskProfile.disability.riskPoint).toBe(1);
+    expect(riskProfile.home.riskPoint).toBe(1);
+    expect(riskProfile.auto.riskPoint).toBe(1);
+  });
+
   test('Should add 1 risk point to the life score and remove 1 risk point from disability for married users.', async () => {
     user.marital_status = 'married';
 
@@ -47,6 +58,17 @@ describe('CalculatesRiskPointsByMaritalStatus', () => {
 
     expect(riskProfile.life.riskPoint).toBe(1);
     expect(riskProfile.disability.riskPoint).toBe(1);
+    expect(riskProfile.home.riskPoint).toBe(1);
+    expect(riskProfile.auto.riskPoint).toBe(1);
+  });
+
+  test('Should add 4 risk point to the life score and remove 1 risk point from disability for domestic partnership users.', async () => {
+    user.marital_status = 'domestic_partnership';
+
+    await calculatesRiskPointsByMaritalStatus.execute(user, riskProfile);
+
+    expect(riskProfile.life.riskPoint).toBe(5);
+    expect(riskProfile.disability.riskPoint).toBe(0);
     expect(riskProfile.home.riskPoint).toBe(1);
     expect(riskProfile.auto.riskPoint).toBe(1);
   });

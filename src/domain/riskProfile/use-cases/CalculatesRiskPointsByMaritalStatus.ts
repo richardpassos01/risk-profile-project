@@ -14,6 +14,22 @@ export default class CalculatesRiskPointsByMaritalStatus {
   ) { }
 
   async execute(user: User, riskProfile: RiskProfile): Promise<void> {
+    if (user.marital_status === UserMaritalStatus.DomesticPartnership) {
+      await this.addRiskPointForEligibleInsurances.execute(
+        SuitabilityRiskProfileNames.Life,
+        AvailableRiskPoints.Four,
+        riskProfile,
+      );
+
+      await this.deductRiskPointForEligibleInsurances.execute(
+        SuitabilityRiskProfileNames.Disability,
+        AvailableRiskPoints.One,
+        riskProfile,
+      );
+
+      await this.logger.info(`${AvailableRiskPoints.One} risk points were add from ${SuitabilityRiskProfileNames.Life} insurance and ${AvailableRiskPoints.One} deducted from ${SuitabilityRiskProfileNames.Disability} because the user is married.`);
+    }
+
     if (user.marital_status === UserMaritalStatus.Married) {
       await this.addRiskPointForEligibleInsurances.execute(
         SuitabilityRiskProfileNames.Life,

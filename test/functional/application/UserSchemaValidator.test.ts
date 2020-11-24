@@ -68,7 +68,7 @@ describe('UserSchema', () => {
       .expect('Content-Type', /json/)
       .expect(httpStatus.BAD_REQUEST)
       .end((err, res): any => {
-        const invalidAttribute = '{"code":"RPJGNC0003","message":"ValidationError: \\"marital_status\\" must be one of [single, married]","field":"body"}';
+        const invalidAttribute = '{"code":"RPJGNC0003","message":"ValidationError: \\"marital_status\\" must be one of [single, married, divorced, domestic_partnership]","field":"body"}';
 
         const { text } = res;
 
