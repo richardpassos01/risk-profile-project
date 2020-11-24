@@ -2,6 +2,7 @@ import { LoggerDTO } from '@domain/shared/Contracts';
 import { User } from '@domain/user';
 import { SuitabilityRiskProfileNames } from '@shared/enums/SuitabilityRiskProfileNames';
 import { UserDefinitionByQuantityYears } from '@shared/enums/UserDefinitionByQuantityYears';
+import { UserHomeOwnerShipStatus } from '@shared/enums/UserHomeOwnerShipStatus';
 import RiskProfile from '../RiskProfile';
 
 export default class DetermineInsuranceEligibility {
@@ -37,6 +38,17 @@ export default class DetermineInsuranceEligibility {
     if (!user.house) {
       riskProfile.home.isEligible = false;
       await this.logger.info(`${SuitabilityRiskProfileNames.Home} insurance is not eligible because the user has no home`);
+      return;
+    }
+
+    if (user.house.ownership_status === UserHomeOwnerShipStatus.Owned) {
+      riskProfile.renters.isEligible = false;
+      await this.logger.info(`${SuitabilityRiskProfileNames.Renters} insurance is not eligible because the user is owned of house`);
+    }
+
+    if (user.house.ownership_status === UserHomeOwnerShipStatus.Rented) {
+      riskProfile.home.isEligible = false;
+      await this.logger.info(`${SuitabilityRiskProfileNames.Home} insurance is not eligible because the user house is rented`);
     }
   }
 

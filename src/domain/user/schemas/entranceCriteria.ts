@@ -5,7 +5,10 @@ const entranceCriteria = Joi.object({
     .required(),
   dependents: Joi.number().integer().min(0).required(),
   house: Joi.object({
-    ownership_status: Joi.string().valid('owned').valid('mortgaged'),
+    ownership_status: Joi.string()
+      .valid('owned')
+      .valid('mortgaged')
+      .valid('rented'),
   }).optional(),
   income: Joi.number().integer().min(0).required(),
   marital_status: Joi.string()

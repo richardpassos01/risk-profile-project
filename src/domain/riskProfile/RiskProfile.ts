@@ -8,6 +8,7 @@ export interface SuitabilityRiskProfile {
   disability: string;
   home: string;
   life: string;
+  renters: string;
 }
 
 export default class RiskProfile {
@@ -20,6 +21,8 @@ export default class RiskProfile {
   public home: Insurance;
 
   public life: Insurance;
+
+  public renters: Insurance;
 
   constructor(baseScore: number, baseEligibleStatus = false) {
     this.auto = {
@@ -38,6 +41,11 @@ export default class RiskProfile {
     };
 
     this.life = {
+      isEligible: baseEligibleStatus,
+      riskPoint: baseScore,
+    };
+
+    this.renters = {
       isEligible: baseEligibleStatus,
       riskPoint: baseScore,
     };

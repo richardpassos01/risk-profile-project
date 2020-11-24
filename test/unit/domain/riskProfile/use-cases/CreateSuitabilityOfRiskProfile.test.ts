@@ -18,6 +18,7 @@ describe('CreateSuitabilityOfRiskProfile', () => {
       disability: 'ineligible',
       home: 'ineligible',
       life: 'ineligible',
+      renters: 'ineligible',
     };
 
     const result = await createSuitabilityOfRiskProfile.execute(mockRiskProfile);
@@ -33,6 +34,7 @@ describe('CreateSuitabilityOfRiskProfile', () => {
       disability: 'economic',
       home: 'economic',
       life: 'economic',
+      renters: 'economic',
     };
 
     const result = await createSuitabilityOfRiskProfile.execute(mockRiskProfile);
@@ -48,6 +50,7 @@ describe('CreateSuitabilityOfRiskProfile', () => {
       disability: 'regular',
       home: 'regular',
       life: 'regular',
+      renters: 'regular',
     };
 
     const result = await createSuitabilityOfRiskProfile.execute(mockRiskProfile);
@@ -63,6 +66,7 @@ describe('CreateSuitabilityOfRiskProfile', () => {
       disability: 'responsible',
       home: 'responsible',
       life: 'responsible',
+      renters: 'responsible',
     };
 
     const result = await createSuitabilityOfRiskProfile.execute(mockRiskProfile);

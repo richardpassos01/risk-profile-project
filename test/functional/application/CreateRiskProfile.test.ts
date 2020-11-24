@@ -19,7 +19,7 @@ describe('RiskProfile', () => {
       .send({
         age: 35,
         dependents: 2,
-        house: { ownership_status: 'owned' },
+        house: { ownership_status: 'rented' },
         income: 0,
         marital_status: 'married',
         risk_questions: [0, 1, 0],
@@ -37,7 +37,8 @@ describe('RiskProfile', () => {
         const expected = {
           auto: 'regular',
           disability: 'ineligible',
-          home: 'economic',
+          renters: 'economic',
+          home: 'ineligible',
           life: 'regular',
         };
 

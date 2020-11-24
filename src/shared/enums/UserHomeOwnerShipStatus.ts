@@ -1,4 +1,5 @@
 export enum UserHomeOwnerShipStatus {
   Mortgaged = 'mortgaged',
-  Owned = 'owned'
+  Owned = 'owned',
+  Rented = 'rented',
 }

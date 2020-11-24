@@ -3,4 +3,5 @@ export enum SuitabilityRiskProfileNames {
   Disability = 'disability',
   Home = 'home',
   Life = 'life',
+  Renters = 'renters',
 }

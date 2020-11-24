@@ -140,7 +140,7 @@ describe('UserSchema', () => {
       .expect('Content-Type', /json/)
       .expect(httpStatus.BAD_REQUEST)
       .end((err, res): any => {
-        const invalidAttribute = '{"code":"RPJGNC0003","message":"ValidationError: \\"house.ownership_status\\" must be one of [owned, mortgaged]","field":"body"}';
+        const invalidAttribute = '{"code":"RPJGNC0003","message":"ValidationError: \\"house.ownership_status\\" must be one of [owned, mortgaged, rented]","field":"body"}';
 
         const { text } = res;
 

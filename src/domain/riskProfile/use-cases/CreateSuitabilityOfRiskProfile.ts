@@ -6,6 +6,7 @@ export default class CreateSuitabilityOfRiskProfile {
     const suitabilityOfRiskProfile = {
       auto: await this.createSuitability(riskProfile.auto),
       disability: await this.createSuitability(riskProfile.disability),
+      renters: await this.createSuitability(riskProfile.renters),
       home: await this.createSuitability(riskProfile.home),
       life: await this.createSuitability(riskProfile.life),
     };
